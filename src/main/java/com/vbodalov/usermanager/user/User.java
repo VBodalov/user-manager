@@ -1,5 +1,7 @@
 package com.vbodalov.usermanager.user;
 
+import com.google.gson.Gson;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Data
 @Builder
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "user")
 class User {
@@ -30,5 +33,8 @@ class User {
     @Column(name = "blocked")
     private boolean blocked;
 
-    //TODO toString (Google Gson)
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }
