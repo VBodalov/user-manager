@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.SEQUENCE;
-import static lombok.AccessLevel.PROTECTED;
 
 @Data
 @Builder
-@NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
+
 @Entity
 @Table(name = "user")
 class User {

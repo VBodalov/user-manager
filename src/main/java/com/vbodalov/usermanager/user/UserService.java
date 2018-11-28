@@ -18,6 +18,17 @@ class UserService {
         this.userRepository = userRepository;
     }
 
+    User findByUserNameAndPassword(String userName, String password) {
+        if (userName == null || userName.isEmpty()) {
+            throw new IllegalArgumentException("userName argument is null or empty!");
+        }
+        if (password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("password argument is null or empty!");
+        }
+
+        return userRepository.findByUserNameAndPassword(userName, password);
+    }
+
     Collection<User> findAll() {
         try {
             return StreamSupport
@@ -28,15 +39,14 @@ class UserService {
         }
     }
 
-    User findByUserNameAndPassword(String userName, String password) {
-        return null;
-    }
-
     boolean blockUser() {
         return false;
     }
 
     User save(User user) {
-        return null;
+        if (user == null) {
+            throw new IllegalArgumentException("user argument is null!");
+        }
+        return userRepository.save(user);
     }
 }
