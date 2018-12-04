@@ -1,5 +1,6 @@
 package com.vbodalov.usermanager.user;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +11,32 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RestController
 public class UserController {
 
+    private final ModelMapper modelMapper;
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(ModelMapper modelMapper, UserService userService) {
+        this.modelMapper = modelMapper;
         this.userService = userService;
     }
 
-    @PostMapping(value = "/user/findByUserNameAndPassword", produces = APPLICATION_JSON_UTF8_VALUE)
-    public User findByUserNameAndPassword(@RequestBody UserCredentials userCredentials) {
-        return userService.findByUserNameAndPassword(userCredentials.getUserName(), userCredentials.getPassword());
+    @PostMapping(value = "/user/create", produces = APPLICATION_JSON_UTF8_VALUE)
+    public User createNewUser(@RequestBody UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+        return userService.save(user);
+    }
+
+    @PostMapping(value = "/user/updateCredentials/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public UserCredentials updateCredentials(
+            @PathVariable("userId") long userId,
+            @RequestBody UserCredentials userCredentials
+    ) {
+        return userService.updateCredentials(userId, userCredentials);
+    }
+
+    @PostMapping(value = "/user/toggleBlocking/{userId}")
+    public boolean toggleBlocking(@PathVariable("userId") long userId) {
+        return userService.toggleBlocking(userId);
     }
 
     @GetMapping(value = "/user/find-all", produces = APPLICATION_JSON_UTF8_VALUE)
@@ -27,8 +44,8 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PostMapping(value = "/user/create", produces = APPLICATION_JSON_UTF8_VALUE)
-    public User createNewUser(@RequestBody User user) {
-        return userService.save(user);
+    @PostMapping(value = "/user/findByUserNameAndPassword", produces = APPLICATION_JSON_UTF8_VALUE)
+    public User findByUserNameAndPassword(@RequestBody UserCredentials userCredentials) {
+        return userService.findByUserNameAndPassword(userCredentials.getUserName(), userCredentials.getPassword());
     }
 }
