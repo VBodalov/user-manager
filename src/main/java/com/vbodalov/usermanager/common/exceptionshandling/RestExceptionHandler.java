@@ -12,17 +12,22 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+/**
+ * A class providing centralized exception handling across @RequestMapping methods through @ExceptionHandler methods.
+ * Created to encapsulate errors with more details than default exception handling methods.
+ */
+
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
-     * Handle HttpMessageNotReadableException. Happens when request JSON is malformed.
+     * Handles HttpMessageNotReadableException. Happens when request JSON is malformed.
      *
-     * @param exception HttpMessageNotReadableException
-     * @param headers   HttpHeaders
-     * @param status    HttpStatus
-     * @param request   WebRequest
-     * @return the ApiError object
+     * @param exception a HttpMessageNotReadableException from which the detailed message to be written in response
+     * @param headers   just overridden HttpHeaders argument not to be written to the response
+     * @param status    just overridden HttpStatus argument not to be written to the response
+     * @param request   just overridden WebRequest argument not to be written to the response
+     * @return an exception response with more details than default
      */
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
@@ -40,11 +45,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles EntityNotFoundException.
-     * Created to encapsulate errors with more detail than javax.persistence.EntityNotFoundException.
+     * Handles EntityNotFoundException. Happens when entity can't be find, for example, by means of CRUD repository.
      *
-     * @param exception the EntityNotFoundException
-     * @return the ApiError object
+     * @param exception the EntityNotFoundException from which the detailed message to be written in response
+     * @return an exception response with more details than default
      */
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException exception) {
@@ -58,8 +62,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Build Spring HTTP response entity.
      *
-     * @param apiError API error response entity
-     * @return Spring ResponseEntity with api
+     * @param apiError the customized ApiError object to return instead default exception response
+     * @return exception response with customized ApiError object
      */
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
