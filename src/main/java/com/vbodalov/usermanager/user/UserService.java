@@ -1,10 +1,10 @@
 package com.vbodalov.usermanager.user;
 
+import com.vbodalov.usermanager.common.exceptionshandling.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.stream.StreamSupport;
 
@@ -22,14 +22,21 @@ class UserService {
         this.userRepository = userRepository;
     }
 
-    User save(User user) {
+    User create(User user) {
         if (user == null) {
             throw new IllegalArgumentException("user argument is null!");
         }
+        if (user.getId() != null) {
+            throw new IllegalArgumentException(
+                    "User ID is not null! Maybe you should use update method instead.");
+        }
+
         return userRepository.save(user);
     }
 
-    UserCredentials updateCredentials(long userId, UserCredentials userCredentials) {
+    UserCredentials updateCredentials(long userId, UserCredentials userCredentials)
+            throws EntityNotFoundException {
+
         if (userCredentials == null) {
             throw new IllegalArgumentException("userCredentials argument is null!");
         }
@@ -41,8 +48,8 @@ class UserService {
             throw new IllegalArgumentException("User name or password is null or empty!");
         }
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find userD!"));
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new EntityNotFoundException(User.class, "id", String.valueOf(userId)));
         user.setUserName(userCredentials.getUserName());
         user.setPassword(userCredentials.getPassword());
         User updatedUser = userRepository.save(user);
@@ -50,9 +57,9 @@ class UserService {
         return modelMapper.map(updatedUser, UserCredentials.class);
     }
 
-    boolean toggleBlocking(long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find user!"));
+    boolean toggleBlocking(long userId) throws EntityNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new EntityNotFoundException(User.class,"id", String.valueOf(userId)));
         user.setBlocked(!user.isBlocked());
         User updatedUser = userRepository.save(user);
         return updatedUser.isBlocked();
@@ -65,7 +72,9 @@ class UserService {
 
     }
 
-    User findByUserNameAndPassword(String userName, String password) {
+    User findByUserNameAndPassword(String userName, String password)
+            throws EntityNotFoundException {
+
         if (userName == null || userName.isEmpty()) {
             throw new IllegalArgumentException("userName argument is null or empty!");
         }
@@ -73,6 +82,13 @@ class UserService {
             throw new IllegalArgumentException("password argument is null or empty!");
         }
 
-        return userRepository.findByUserNameAndPassword(userName, password);
+        User user = userRepository.findByUserNameAndPassword(userName, password);
+        if (user == null) {
+           throw new EntityNotFoundException(
+                   User.class,
+                   "userName", userName,
+                   "password", password);
+        }
+        return user;
     }
 }

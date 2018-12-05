@@ -1,5 +1,6 @@
 package com.vbodalov.usermanager.user;
 
+import com.vbodalov.usermanager.common.exceptionshandling.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,19 +24,20 @@ public class UserController {
     @PostMapping(value = "/user/create", produces = APPLICATION_JSON_UTF8_VALUE)
     public User createNewUser(@RequestBody UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
-        return userService.save(user);
+        return userService.create(user);
     }
 
     @PostMapping(value = "/user/updateCredentials/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
     public UserCredentials updateCredentials(
             @PathVariable("userId") long userId,
             @RequestBody UserCredentials userCredentials
-    ) {
+    ) throws EntityNotFoundException {
         return userService.updateCredentials(userId, userCredentials);
     }
 
     @PostMapping(value = "/user/toggleBlocking/{userId}")
-    public boolean toggleBlocking(@PathVariable("userId") long userId) {
+    public boolean toggleBlocking(@PathVariable("userId") long userId)
+            throws EntityNotFoundException {
         return userService.toggleBlocking(userId);
     }
 
@@ -45,7 +47,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/user/findByUserNameAndPassword", produces = APPLICATION_JSON_UTF8_VALUE)
-    public User findByUserNameAndPassword(@RequestBody UserCredentials userCredentials) {
-        return userService.findByUserNameAndPassword(userCredentials.getUserName(), userCredentials.getPassword());
+    public User findByUserNameAndPassword(@RequestBody UserCredentials userCredentials)
+            throws EntityNotFoundException {
+        return userService.findByUserNameAndPassword(
+                userCredentials.getUserName(),
+                userCredentials.getPassword());
     }
 }
