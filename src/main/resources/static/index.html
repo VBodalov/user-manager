@@ -3,36 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>User manager</title>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet"
-          href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+
+    <!--&lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.css">-->
+    <!--&lt;!&ndash; Latest compiled and minified JavaScript &ndash;&gt;-->
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.js"></script>-->
+
+    <link rel="stylesheet" href="bootstrap-table.css">
+    <script src="bootstrap-table.js"></script>
+
     <script src="main.js"></script>
 </head>
 <body>
 <h1>Users Table</h1>
-<table id="usersTable" class="display">
-    <!-- Header Table -->
+
+<table data-toggle="table">
     <thead>
     <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Password</th>
-        <th>Active</th>
+        <th>Item ID</th>
+        <th>Item Name</th>
+        <th>Item Price</th>
     </tr>
     </thead>
-    <!-- Footer Table -->
-    <tfoot>
+    <tbody>
     <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Password</th>
-        <th>Active</th>
+        <td>1</td>
+        <td>Item 1</td>
+        <td>$1</td>
     </tr>
-    </tfoot>
+    <tr>
+        <td>2</td>
+        <td>Item 2</td>
+        <td>$2</td>
+    </tr>
+    </tbody>
 </table>
+
 </body>
 </html>
