@@ -15,7 +15,7 @@ public class UserDto {
     private Long id;
     private String userName;
     private String password;
-    private boolean blocked;
+    private boolean active;
 
     @Override
     public String toString() {

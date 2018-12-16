@@ -3,44 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>User manager</title>
+
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.css">
+
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-
-    <!--&lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
-    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.css">-->
-    <!--&lt;!&ndash; Latest compiled and minified JavaScript &ndash;&gt;-->
-    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.js"></script>-->
-
-    <link rel="stylesheet" href="bootstrap-table.css">
-    <script src="bootstrap-table.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.js"></script>
 
     <script src="main.js"></script>
 </head>
 <body>
 <h1>Users Table</h1>
 
-<table data-toggle="table">
-    <thead>
-    <tr>
-        <th>Item ID</th>
-        <th>Item Name</th>
-        <th>Item Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>1</td>
-        <td>Item 1</td>
-        <td>$1</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Item 2</td>
-        <td>$2</td>
-    </tr>
-    </tbody>
-</table>
+<table id="userTable"></table>
 
 </body>
 </html>

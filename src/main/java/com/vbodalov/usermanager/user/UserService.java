@@ -57,12 +57,12 @@ class UserService {
         return modelMapper.map(updatedUser, UserCredentials.class);
     }
 
-    boolean toggleBlocking(long userId) throws EntityNotFoundException {
+    boolean toggleActive(long userId) throws EntityNotFoundException {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new EntityNotFoundException(User.class,"id", String.valueOf(userId)));
-        user.setBlocked(!user.isBlocked());
+        user.setActive(!user.isActive());
         User updatedUser = userRepository.save(user);
-        return updatedUser.isBlocked();
+        return updatedUser.isActive();
     }
 
     Collection<User> findAll() {

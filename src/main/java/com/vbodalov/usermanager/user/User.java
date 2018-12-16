@@ -30,8 +30,8 @@ class User {
     @Column(name = "password", length = 10, nullable = false)
     private String password;
 
-    @Column(name = "blocked")
-    private boolean blocked;
+    @Column(name = "active")
+    private boolean active;
 
     @Override
     public String toString() {

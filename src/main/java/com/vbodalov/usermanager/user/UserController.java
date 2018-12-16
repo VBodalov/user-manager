@@ -35,10 +35,10 @@ public class UserController {
         return userService.updateCredentials(userId, userCredentials);
     }
 
-    @PostMapping(value = "/user/toggleBlocking/{userId}")
-    public boolean toggleBlocking(@PathVariable("userId") long userId)
+    @PostMapping(value = "/user/toggleActive/{userId}")
+    public boolean toggleActive(@PathVariable("userId") long userId)
             throws EntityNotFoundException {
-        return userService.toggleBlocking(userId);
+        return userService.toggleActive(userId);
     }
 
     @GetMapping(value = "/user/find-all", produces = APPLICATION_JSON_UTF8_VALUE)
