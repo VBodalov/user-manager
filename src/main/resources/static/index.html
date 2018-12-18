@@ -5,7 +5,8 @@
     <title>User manager</title>
 
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.css">
 
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
@@ -15,9 +16,26 @@
     <script src="main.js"></script>
 </head>
 <body>
-<h1>Users Table</h1>
 
-<table id="userTable"></table>
+<div>
+    <form class="form-inline" style="margin:20px 20px 20px 20px" id="addUserForm">
+        <div class="form-group">
+            <label for="userName" style="margin-right:5px">User name:</label>
+            <input type="text" class="form-control" id="userName" placeholder="Enter user name"/>
+        </div>
+        <div class="form-group">
+            <label for="password" style="margin-left:20px; margin-right:5px">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password"/>
+        </div>
+        <button type="submit" class="btn btn-default" style="margin-left:20px; margin-right:5px">
+            Submit
+        </button>
+    </form>
+</div>
+
+<div style="margin:20px 20px 20px 20px">
+    <table id="userTable"></table>
+</div>
 
 </body>
 </html>

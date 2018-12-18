@@ -6,20 +6,6 @@ $(document).ready(function () {
     //     $('.users').append(data)
     // })
 
-    // var table = $('#usersTable').DataTable({
-    //     "sAjaxSource": "/user/find-all",
-    //     "sAjaxDataProp": "",
-    //     "order": [[ 0, "asc" ]],
-    //     "aoColumns": [
-    //         { "mData": "id"},
-    //         { "mData": "userName" },
-    //         { "mData": "password" },
-    //         { "mData": "active" }
-    //     ]
-    // })
-
-    // const axios = require('axios');
-
     $('#userTable').bootstrapTable({
         url: '/user/find-all',
         columns: [{
@@ -30,7 +16,7 @@ $(document).ready(function () {
             title: 'User name'
         }, {
             field: 'password',
-            title: 'User password'
+            title: 'Password'
         }, {
             field: 'active',
             title: 'Active',
@@ -38,20 +24,35 @@ $(document).ready(function () {
             formatter: operateFormatter
         }]
     });
+
+    $("#addUserForm").submit(function (event) {
+        event.preventDefault();
+        axios.post('/user/create', {
+            id: null,
+            userName: $("#userName").val(),
+            password: $("#password").val(),
+            active: true
+        })
+            .then(function (response) {
+
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+    });
 });
 
 window.operateEvents = {
     'click .activeToggle': function (e, value, row, index) {
 
-        axios.post('/user/toggleActive?userId=' + row.userId, {})
+        axios.post('/user/toggleActive/' + row.id, {})
             .then(function (response) {
                 $('#userTable').bootstrapTable(
                     'updateCell', {
                         index: index,
                         field: "active",
-                        value: response
+                        value: response.data
                     });
-                alert(response);
             })
             .catch(function (error) {
                 alert(error);
