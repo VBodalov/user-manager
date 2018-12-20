@@ -1,11 +1,5 @@
 $(document).ready(function () {
 
-    // $.ajax({
-    //     url: "/user/find-all"
-    // }).then(function (data) {
-    //     $('.users').append(data)
-    // })
-
     $('#userTable').bootstrapTable({
         url: '/user/find-all',
         columns: [{
@@ -26,18 +20,26 @@ $(document).ready(function () {
     });
 
     $("#addUserForm").submit(function (event) {
+
         event.preventDefault();
-        axios.post('/user/create', {
-            id: null,
+
+        const newUser = {
             userName: $("#userName").val(),
             password: $("#password").val(),
             active: true
-        })
-            .then(function (response) {
+        };
 
+        $.ajax({
+            url: "/user/create",
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(newUser)
+        })
+            .done(function (response) {
+                $('#userTable').bootstrapTable('refresh');
             })
             .catch(function (error) {
-                alert(error);
+                alert("Error: " + JSON.stringify(error));
             });
     });
 });
@@ -45,17 +47,22 @@ $(document).ready(function () {
 window.operateEvents = {
     'click .activeToggle': function (e, value, row, index) {
 
-        axios.post('/user/toggleActive/' + row.id, {})
-            .then(function (response) {
+        $.ajax({
+            url: "/user/toggleActive/" + row.id,
+            method: "POST",
+            contentType: "application/json; charset=utf-8"
+        })
+            .done(function (response) {
                 $('#userTable').bootstrapTable(
-                    'updateCell', {
+                    'updateCell',
+                    {
                         index: index,
                         field: "active",
-                        value: response.data
+                        value: response
                     });
             })
             .catch(function (error) {
-                alert(error);
+                alert("Error: " + JSON.stringify(error));
             });
     }
 };
