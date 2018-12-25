@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script src="main.js"></script>
 </head>
@@ -34,6 +36,19 @@
 
 <div style="margin:20px 20px 20px 20px">
     <table id="userTable"></table>
+</div>
+
+<div id="edit-user-dialog" title="Edit user">
+    <form>
+        <fieldset>
+            <label for="userNameDialog">User name</label>
+            <input type="text" name="userName" id="userNameDialog" class="text ui-widget-content ui-corner-all">
+            <label for="passwordDialog">Password</label>
+            <input type="password" name="password" id="passwordDialog" class="text ui-widget-content ui-corner-all">
+
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+    </form>
 </div>
 
 </body>
