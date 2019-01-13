@@ -42,7 +42,7 @@ $(document).ready(function () {
             formatter: operateFormatter
         }],
         onDblClickRow: function (row, $element, field) {
-            userId = (row.userId);
+            userId = (row.id);
             name.val(row.userName);
             dialog.dialog("open");
         }
@@ -60,7 +60,7 @@ $(document).ready(function () {
         width: 350,
         modal: true,
         buttons: {
-            "Save": addUser,
+            "Save": updateCredentials,
             Cancel: function () {
                 dialog.dialog("close");
             }
@@ -73,12 +73,34 @@ $(document).ready(function () {
 
     const form = dialog.find("form").on("submit", function (event) {
         event.preventDefault();
-        addUser(name.val(), password.val(), userId);
+        updateCredentials();
     });
 
     $("#edit-user").button().on("click", function () {
         dialog.dialog("open");
     });
+
+    function updateCredentials() {
+
+        const userCredentials = {
+            userName: name.val(),
+            password: password.val()
+        };
+
+        $.ajax({
+            url: "/user/updateCredentials/" + userId,
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(userCredentials)
+        })
+            .done(function (response) {
+                $('#userTable').bootstrapTable('refresh');
+                dialog.dialog("close")
+            })
+            .catch(function (error) {
+                alert("Error: " + JSON.stringify(error))
+            });
+    }
 });
 
 window.operateEvents = {
@@ -110,29 +132,4 @@ function operateFormatter(value, row, index) {
         value,
         '</a>  '
     ].join('');
-}
-
-function addUser(name, password, userId) {
-
-    alert(name);
-    alert(password);
-    alert(userId);
-
-    const userCredentials = {
-        userName: name,
-        password: password
-    };
-
-    $.ajax({
-        url: "/user/updateCredentials/" + userId,
-        method: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(userCredentials)
-    })
-        .done(function (response) {
-            $('#userTable').bootstrapTable('refresh');
-        })
-        .catch(function (error) {
-            alert("Error: " + JSON.stringify(error))
-        });
 }

@@ -59,7 +59,7 @@ class UserService {
 
     boolean toggleActive(long userId) throws EntityNotFoundException {
         User user = userRepository.findById(userId).orElseThrow(() ->
-                new EntityNotFoundException(User.class,"id", String.valueOf(userId)));
+                new EntityNotFoundException(User.class, "id", String.valueOf(userId)));
         user.setActive(!user.isActive());
         User updatedUser = userRepository.save(user);
         return updatedUser.isActive();
@@ -84,10 +84,10 @@ class UserService {
 
         User user = userRepository.findByUserNameAndPassword(userName, password);
         if (user == null) {
-           throw new EntityNotFoundException(
-                   User.class,
-                   "userName", userName,
-                   "password", password);
+            throw new EntityNotFoundException(
+                    User.class,
+                    "userName", userName,
+                    "password", password);
         }
         return user;
     }
